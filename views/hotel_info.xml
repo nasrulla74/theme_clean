@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="appeul_hotels_info_travel" name="hotel bookinfo travel">
+		<t t-call="website.layout">
+			<t t-set="additional_title">Hotels</t>
+			<div id="wrap" class="js_booking oe_hotel_booking hotel_booking_info_page">
+				<section class="hotel-single-section pt-0 b-bottom bg-size blur-up lazyloaded" t-attf-style="background-image: url(&quot;/web/image/hotel.hotel/#{hotel.id}/cover_image&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; display: block;">
+<!--			        <img t-attf-src="/web/image/hotel.hotel/#{hotel.id}/image_1920" class="bg-img bg-bottom img-fluid blur-up lazyload" alt="" style="display: none;"/>-->
+			        <div class="hotel-title-section">
+			            <div class="container ">
+			                <div class="row">
+			                    <div class="col-12">
+			                        <div class="hotel-name">
+			                        	<t t-set="p_reviwes" t-value="hotel.sudo().rating_get_stats().get('avg')"/>
+			                            <div class="left-part">
+			                                <div class="top">
+			                                    <h2 t-field="hotel.name"/>
+			                                    <div class="rating" t-if="p_reviwes">
+			                                    	<t t-foreach="range(0, ceil(p_reviwes))" t-as="rets">
+											         	<i class="fa fa-star"/>
+											        </t>
+			                                    </div>
+			                                </div>
+			                                <p t-esc="hotel.get_hotel_address(is_state=1)"/>
+			                                <div class="facility-detail" t-if="hotel.amenities_ids">
+			                                	<t t-foreach="hotel.amenities_ids[:4]" t-as="hotel_amin_id">
+			                                    	<span t-esc="hotel_amin_id.name"/>
+			                                	</t>
+			                                </div>
+			                            </div>
+			                            <div class="right-part" t-if="selected_datas">
+			                                <h2 class="price">
+			                                <span t-esc="selected_datas.get('per_night_price')" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}" class="bold_banner_price"/>
+			                                <del t-if="selected_datas and selected_datas.get('has_discount')" t-esc="selected_datas.get('list_price')" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}" class="discount_price_cl"/>
+			                                <span>/ per night</span></h2>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </section>
+		        <section class="single-section xs-section bg-inner bg_gray_color">
+		            <div class="container">
+		                <div class="row">
+		                    <div class="col-xl-9 col-lg-8">
+		                    	<div class="image_section ">
+			                        <div class="row">
+			                            <div class="col-sm-8">
+			                                <div class="slide-1 arrow-dark zoom-gallery ratio2_3">
+			                                	<t t-foreach="hotel.hotel_image_ids" t-as="hotel_img_id">
+				                                    <div>
+				                                        <a t-attf-href="/web/image/hotel.image/#{hotel_img_id.id}/image_1920">
+				                                            <img t-attf-src="/web/image/hotel.image/#{hotel_img_id.id}/image_1920"
+				                                                class="img-fluid blur-up lazyload bg-img w-100" alt=""/>
+				                                            <h6 class="view-all">view all images</h6>
+				                                        </a>
+				                                    </div>
+			                                	</t>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-4 d-none d-sm-block">
+			                                <div class="row">
+			                                    <div class="col-12 ratio_59">
+			                                        <div class="slide-1 zoom-gallery no-arrow">
+			                                        	<t t-foreach="room_images" t-as="room_image">
+				                                            <div>
+				                                                <a t-attf-href="/web/image/#{room_image._name}/#{room_image.id}/image_1920">
+				                                                    <img t-attf-src="/web/image/#{room_image._name}/#{room_image.id}/image_1920"
+				                                                        class="img-fluid blur-up lazyload bg-img w-100" alt=""/>
+				                                                    <h6 class="view-all">room images</h6>
+				                                                </a>
+				                                            </div>
+			                                        	</t>
+
+			                                        </div>
+			                                        <div class="slide-1 zoom-gallery no-arrow m-cls">
+			                                        	<t t-foreach="hotel.hotel_image_ids" t-as="hotel_img_id">
+				                                            <div>
+				                                            	<a t-attf-href="/web/image/hotel.image/#{hotel_img_id.id}/image_1920">
+						                                            <img t-attf-src="/web/image/hotel.image/#{hotel_img_id.id}/image_1920"
+						                                                class="img-fluid blur-up lazyload bg-img w-100" alt=""/>
+						                                            <h6 class="view-all">Hotel images</h6>
+						                                        </a>
+				                                            </div>
+			                                        	</t>
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="description-section">
+			                        <div class="menu-top" id="searchBar">
+			                            <div class="container">
+			                                <ul class="nav">
+			                                    <li class="active"><a class="" href="#about">about</a></li>
+			                                    <li><a class="" href="#rooms">rooms</a></li>
+			                                    <li><a class="" href="#facility">facility</a></li>
+			                                    <li><a class="" href="#location">location</a></li>
+			                                    <li><a class="" href="#review">reviews</a></li>
+			                                    <li t-if="hotel.hotel_policy"><a class="" href="#policy">policies</a></li>
+			                                </ul>
+			                            </div>
+			                        </div>
+			                        <div class="description-details">
+			                        	<div class="desc-box">
+			                                <div class="about page-section menu-part" id="about">
+			                                    <div t-field="hotel.description"/>
+			                                </div>
+			                            </div>
+			                            <div class="desc-box">
+					                        <h4 class="content-title">choose room</h4>
+					                        <div class="menu-part page-section" id="rooms">
+					                        	<h1 t-if="not rooms_datas">Sorry! Not Available any rooms</h1>
+					                            <table class="rooms-box" t-if="rooms_datas">
+					                                <tr t-foreach="rooms_datas" t-as="rmty">
+					                                	<t t-set="hd_room_type" t-value="rmty.get('room_type')"/>
+					                                	<t t-set="hd_room_id" t-value="rmty.get('room_id')"/>
+					                                	<t t-set="hd_room_cat_id" t-value="rmty.get('room_cat_id')"/>
+					                                	<t t-set="hd_amenities" t-value="rmty.get('amenities')"/>
+					                                	<t t-set="hd_price" t-value="rmty.get('price')"/>
+					                                    <td>
+					                                        <h6 class="room-title" t-esc="hd_room_type.name" t-if="hd_room_type"/>
+					                                        <a href="#" t-if="hd_room_cat_id">
+					                                            <img t-attf-src="/web/image/room.category/#{hd_room_cat_id.id}/featured_image"
+					                                                class="img-fluid blur-up lazyload" alt=""/>
+					                                        </a>
+					                                    </td>
+					                                    <td>
+					                                        <div class="room-detail">
+					                                            <div class="row">
+					                                                <div class="col-12 p-0">
+					                                                    <h6>Room Amenities</h6>
+					                                                    <div class="facility-detail" t-if="hd_amenities">
+					                                                        <ul>
+					                                                            <li t-foreach="hd_amenities[:8]" t-as="amenity">
+					                                                            	<img t-attf-src="/web/image/room.amenities/#{amenity.id}/icon"
+					                                                                    class="img-fluid blur-up lazyload" alt=""/>
+					                                                                <dpk t-esc="amenity.name"/>
+					                                                            </li>
+					                                                        </ul>
+					                                                    </div>
+					                                                </div>
+					                                            </div>
+					                                        </div>
+					                                    </td>
+					                                    <td>
+					                                        <div class="price-details">
+					                                            <div>
+					                                                <h5 t-esc="hd_price" t-att-price="hd_price" class="d-inline-flex"/>
+<!--					                                                <h5 t-esc="hd_price" t-att-price="hd_price" class="d-inline-flex" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/>-->
+<!--					                                                <del t-if="rmty and rmty.get('has_discount')" t-esc="rmty.get('list_price')" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}" class="discount_price_cl"/>-->
+<!--					                                                <a t-att-href="bkeep(select_cat_id=hd_room_type.id, book_info=rmty.get('booked_room'))" class="btn btn-primary onb_btn color1" t-if="select_cat_id and select_cat_id != hd_room_type.id">-->
+<!--					                                                	Book Now-->
+<!--					                                                </a>-->
+																	<a t-att-href="" class="btn btn-primary">
+					                                                	Book Now
+					                                                </a>
+
+<!--					                                                <a href="#" class="btn btn-success shadow-none font-weight-bold onb_btn color1" t-if="select_cat_id and select_cat_id == hd_room_type.id">-->
+<!--					                                                	Selected-->
+<!--					                                                </a>-->
+<!--					                                                <strong></strong>-->
+					                                            </div>
+					                                        </div>
+					                                    </td>
+					                                    <tr class="tr_break_line">
+					                                    	<td colspan="3">
+<!--					                                    		<h5 t-esc="rmty.get('room_info')" class="room_size_display"/>-->
+					                                    	</td>
+					                                    </tr>
+					                                </tr>
+					                            </table>
+					                        </div>
+					                    </div>
+					                    <div class="desc-box">
+			                                <h4 class="content-title">Facilities</h4>
+			                                <div class="menu-part page-section facility" id="facility">
+													<t t-set="amenity_category" t-value="[]"/>
+														<t t-foreach="hotel_amenities" t-as="l">
+															<t t-set="amenity_category" t-value="amenity_category+[l.category_id]"/>
+														</t>
+														<t t-foreach="set(amenity_category)" t-as="category">
+															<div class="container">
+
+																	<div class="row">
+																		<div class="col-12 p-0">
+																			<strong t-esc="category.name"/>
+																		</div>
+																	</div>
+																		<div class="row mb-3">
+																			<div class="col-12 p-0">
+																				<t t-foreach="hotel_amenities" t-as="l">
+																					<t t-if="category.id==l.category_id.id">
+																						<img t-attf-src="/web/image/hotel.amenities/#{l.id}/icon"
+																							  class="img-fluid blur-up lazyload" alt=""/>
+																							<dpk t-esc="l.name"/>
+
+																					</t>
+																				</t>
+																			</div>
+																		</div>
+
+															</div>
+														</t>
+
+
+					                        </div>
+					                    </div>
+					                    <div class="desc-box">
+			                                <h4 class="content-title">location</h4>
+			                                <div class="menu-part page-section map" id="location">
+<!--			                                	<div t-raw="hotel.location"/>-->
+			                                </div>
+			                            </div>
+			                            <div class="desc-box">
+			                                <h4 class="content-title">review</h4>
+			                                <div class="menu-part page-section review" id="review">
+			                                    <div class="hotel_review">
+						                            <t t-call="portal.message_thread">
+						                                <t t-set="object" t-value="hotel"/>
+						                                <t t-set="display_rating" t-value="True"/>
+						                            </t>
+						                        </div>
+			                                </div>
+			                            </div>
+			                            <div class="desc-box" t-if="hotel.hotel_policy">
+			                                <h4 class="content-title">policies</h4>
+			                                <div class="menu-part policy page-section" id="policy">
+<!--			                                	<div t-field="hotel.hotel_policy"/>-->
+			                                </div>
+			                            </div>
+			                        </div>
+			                    </div>
+		                    </div>
+		                    <div class="col-xl-3 col-lg-4" id="booking">
+		                    	<div class="sticky-cls">
+		                    		<div class="single-sidebar">
+				                    	<section class="search_bar_section o_not_editable">
+								    		<div class="row">
+								    			<div class="col-md-12">
+								    				<div class="inner_search_form">
+														<form id="search-form" class="search-form" action="#" method="posts">
+														   <div class="row">
+														      <div class="col-12">
+														         <label for="eagle_booking_datepicker">Check In/Out</label>
+														         <input id="eagle_booking_datepicker" type="text" class="form-control eagle-booking-datepicker" placeholder="Check In    →    Check Out" t-att-value="date_range" autocomplete="off" readonly="readonly"/>
+														         <input id="eagle_booking_checkin" type="hidden" name="eagle_booking_checkin" t-att-value="eagle_booking_checkin"/>
+														         <input id="eagle_booking_checkout" type="hidden" name="eagle_booking_checkout" t-att-value="eagle_booking_checkout"/>
+														      </div>
+														      <div class="col-md-12">
+														         <label for="eagle_booking_guests">Guests &amp; Rooms</label>
+														         <div class="eb-guestspicker">
+														            <div class="form-control guestspicker">
+														               Guests <span class="gueststotal"/>, Rooms <span class="guestsroomstotal"/>
+														            </div>
+														            <div class="eb-guestspicker-content">
+														               <div class="guests-buttons">
+														                  <div class="description">
+														                     <label>Adults</label>
+														                     <div class="ages">Ages 18+ </div>
+														                  </div>
+														                  <div class="guests-button">
+														                     <div class="minus"/>
+														                     <input type="text" id="eagle_booking_adults" name="eagle_booking_adults" class="booking-guests" t-att-value="eagle_booking_adults" min="1" max="30"/>
+														                     <div class="plus"/>
+														                  </div>
+														               </div>
+														               <div class="guests-buttons">
+														                  <div class="description">
+														                     <label>Children</label>
+														                     <div class="ages">Ages 4 - 18</div>
+														                  </div>
+														                  <div class="guests-button">
+														                     <div class="minus"/>
+														                     <input type="text" id="eagle_booking_children" name="eagle_booking_children" class="booking-guests" t-att-value="eagle_booking_children or '0'" min="0" max="10"/>
+														                     <div class="plus"/>
+														                  </div>
+														               </div>
+														               <div class="guests-buttons">
+														                  <div class="description">
+														                     <label>Rooms</label>
+														                  </div>
+														                  <div class="guests-rooms-button">
+														                     <div class="minus"/>
+														                     <input type="text" id="eagle_booking_rooms" name="eagle_booking_rooms" class="booking-guestsrooms" t-att-value="eagle_booking_rooms" min="1" max="30"/>
+														                     <div class="plus"/>
+														                  </div>
+														               </div>
+														            </div>
+														         </div>
+														      </div>
+														      <div class="col-md-12" t-if="selected_datas">
+														      	<div class="hinfo_summery_section">
+										                            <h5 class="mb-0" t-esc="selected_datas.get('type_name')"/>
+										                            <span t-esc="selected_datas.get('price')" t-att-price="selected_datas.get('price')" class="d-inline-flex" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/>
+										                            <input type="hidden" name="select_cat_id" t-att-value="selected_datas.get('room_type').id"/>
+										                        </div>
+														      </div>
+														      <div class="col-md-12">
+														         <button id="eb_search_form" class="button btn btn-primary eb-btn" type="submit">
+														         <span class="eb-btn-text">Check Availability</span>
+														         </button>
+														      </div>
+														      <div class="col-md-12" t-if="selected_datas">
+														      	<input type="hidden" name="book_info" t-att-value="book_info"/>
+														      	<a t-att-href="bkeep()" class="btn btn-black onb_btn mt8 w-100" t-if="selected_datas">
+														      		Book Now
+														      	</a>
+														      </div>
+														   </div>
+														</form>
+								    				</div>
+								    			</div>
+								    		</div>
+									    </section>
+									</div>
+								</div>
+		                    </div>
+		                </div>
+		            </div>
+		        </section>
+			</div>
+		</t>
+	</template>
+</odoo>
