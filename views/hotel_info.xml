@@ -97,20 +97,21 @@
 			                                    <li class="active"><a class="" href="#about">about</a></li>
 			                                    <li><a class="" href="#rooms">rooms</a></li>
 			                                    <li><a class="" href="#facility">facility</a></li>
-			                                    <li><a class="" href="#location">location</a></li>
+												<li t-if="hotel.the_fine_print"><a class="" href="#fineprint">fine print</a></li>
+												<li><a class="" href="#location">location</a></li>
 			                                    <li><a class="" href="#review">reviews</a></li>
-			                                    <li t-if="hotel.hotel_policy"><a class="" href="#policy">policies</a></li>
+
 			                                </ul>
 			                            </div>
 			                        </div>
 			                        <div class="description-details">
 			                        	<div class="desc-box">
 			                                <div class="about page-section menu-part" id="about">
-			                                    <div t-field="hotel.description"/>
+			                                    <div t-field="hotel.about"/>
 			                                </div>
 			                            </div>
 			                            <div class="desc-box">
-					                        <h4 class="content-title">choose room</h4>
+					                        <h5 class="content-title">choose room</h5>
 					                        <div class="menu-part page-section" id="rooms">
 					                        	<h1 t-if="not rooms_datas">Sorry! Not Available any rooms</h1>
 					                            <table class="rooms-box" t-if="rooms_datas">
@@ -175,7 +176,7 @@
 					                        </div>
 					                    </div>
 					                    <div class="desc-box">
-			                                <h4 class="content-title">Facilities</h4>
+			                                <h5 class="content-title">Facilities</h5>
 			                                <div class="menu-part page-section facility" id="facility">
 													<t t-set="amenity_category" t-value="[]"/>
 														<t t-foreach="hotel_amenities" t-as="l">
@@ -208,14 +209,136 @@
 
 					                        </div>
 					                    </div>
-					                    <div class="desc-box">
-			                                <h4 class="content-title">location</h4>
+
+										<div class="desc-box">
+			                                <h5 class="content-title">House Rules</h5>
+												 <div class="menu-part policy page-section">
+			                                		<div class="container">
+														  <div class="row border border-secondary mb-2">
+															<div class="col-sm">
+															  Check-In
+															</div>
+															<div class="col-9">
+															  <div t-if="hotel.check_in_time">
+																  <div t-field="hotel.check_in_time"/>
+															  </div>
+															</div>
+
+														  </div>
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Check-Out
+																</div>
+																<div class="col-9">
+																  <div t-if="hotel.check_out_time">
+																	  <div t-field="hotel.check_out_time"/>
+																  </div>
+																</div>
+														    </div>
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Cancellation/Prepayment
+																</div>
+																<div class="col-9">
+																  <div t-if="hotel.cancellation_prepayment">
+																	  <div t-field="hotel.cancellation_prepayment"/>
+																  </div>
+																</div>
+														    </div>
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Child Policies
+																</div>
+																<div class="col-9">
+																  <div t-if="hotel.child_policies">
+																	  <div t-field="hotel.child_policies"/>
+																  </div>
+																</div>
+														    </div>
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Age Restriction
+																</div>
+																<div class="col-9">
+																  <div t-if="hotel.age_restriction">
+																	  <div t-field="hotel.age_restriction"/>
+																  </div>
+																</div>
+														    </div>
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Is Pets Allowed?
+																</div>
+																<div class="col-9">
+																  <div t-if="hotel.pets">
+																	  <div t-field="hotel.pets"/>
+																  </div>
+																</div>
+														    </div>
+
+
+															<div class="row border border-secondary mb-2">
+																<div class="col-sm">
+																  Payment Methods
+																</div>
+																<div class="col-9">
+																  <div>
+																	  todo
+
+																  </div>
+																</div>
+														    </div>
+
+
+
+														</div>
+			                                </div>
+
+
+			                            </div>
+
+										<div class="desc-box" t-if="hotel.property_info">
+			                                <h5 class="content-title">Property Information</h5>
+			                                <div class="menu-part policy page-section">
+			                                	<div t-field="hotel.property_info"/>
+			                                </div>
+			                            </div>
+
+										<div class="desc-box" t-if="hotel.neighbourhood_info">
+			                                <h5 class="content-title">Neighbourhood Information</h5>
+			                                <div class="menu-part policy page-section">
+			                                	<div t-field="hotel.neighbourhood_info"/>
+			                                </div>
+			                            </div>
+
+										<div class="desc-box" t-if="hotel.company_info">
+			                                <h5 class="content-title">Company Information</h5>
+			                                <div class="menu-part policy page-section">
+			                                	<div t-field="hotel.company_info"/>
+			                                </div>
+			                            </div>
+
+										<div class="desc-box" t-if="hotel.the_fine_print">
+			                                <h5 class="content-title">the fine print</h5>
+			                                <div class="menu-part policy page-section" id="fineprint">
+			                                	<div t-field="hotel.the_fine_print"/>
+			                                </div>
+			                            </div>
+
+										<div class="desc-box">
+			                                <h5 class="content-title">location</h5>
 			                                <div class="menu-part page-section map" id="location">
 <!--			                                	<div t-raw="hotel.location"/>-->
 			                                </div>
 			                            </div>
+
 			                            <div class="desc-box">
-			                                <h4 class="content-title">review</h4>
+			                                <h5 class="content-title">review</h5>
 			                                <div class="menu-part page-section review" id="review">
 			                                    <div class="hotel_review">
 						                            <t t-call="portal.message_thread">
@@ -225,12 +348,7 @@
 						                        </div>
 			                                </div>
 			                            </div>
-			                            <div class="desc-box" t-if="hotel.hotel_policy">
-			                                <h4 class="content-title">policies</h4>
-			                                <div class="menu-part policy page-section" id="policy">
-<!--			                                	<div t-field="hotel.hotel_policy"/>-->
-			                                </div>
-			                            </div>
+
 			                        </div>
 			                    </div>
 		                    </div>
