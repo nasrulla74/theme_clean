@@ -287,8 +287,18 @@
 																  Payment Methods
 																</div>
 																<div class="col-9">
-																  <div>
-																	  todo
+																  <div t-if="payment_methods">
+																	  <t t-foreach="payment_methods" t-as="p">
+																		  	<span class="px-2 ">
+<!--                                                              					<img src="data:image/svg+xml;base64,${p.image}"/>-->
+																				<img t-attf-src="/web/image/payment.methods/#{p.id}/image"
+																					 		width="40"
+																							  class="img-fluid blur-up lazyload" alt=""/>
+<!--																							<dpk t-esc="p.name"/>-->
+                                                                			</span>
+
+
+																				</t>
 
 																  </div>
 																</div>

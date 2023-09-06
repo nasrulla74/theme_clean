@@ -6,7 +6,7 @@ from odoo.http import request
 class AppeulGetHotelsAll(http.Controller):
     @http.route('/hotels/', auth="public", type="json", methods=['POST'])
     def all_cities_appeul(self):
-        hotels = http.request.env['hotel.hotel'].search_read([('active', '=', True), ('company_id', '=', request.env.company.id)],
+        hotels = http.request.env['hotel.hotel'].search_read([('active', '=', True)],
                                                              ['id', 'name', 'description', 'image_1920', 'featured_amenity_ids'])
         for rec in hotels:
             rec["f_amenity_ids"] = http.request.env['feat.amenities'].search_read([('id', 'in', rec['featured_amenity_ids'])], ['id', 'icon', 'name'])
@@ -21,8 +21,10 @@ class AppeulGetHotelsAll(http.Controller):
         #print('hotels', hotel)
 
         hotel_amenities = []
+        payment_methods = []
         for h in hotel:
             hotel_amenities = hotel.mapped('amenities_ids')
+            payment_methods = hotel.mapped('payment_method_ids')
 
         #print(hotel_amenities)
         values = {
@@ -30,6 +32,7 @@ class AppeulGetHotelsAll(http.Controller):
             'r_types': r_types,
             'rooms_datas': rooms_datas,
             'hotel_amenities': hotel_amenities or [],
+            'payment_methods': payment_methods or [],
 
         }
 
